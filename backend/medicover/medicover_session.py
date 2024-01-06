@@ -28,7 +28,7 @@ class MedicoverSession:
     Creating (log_in) and killing (log_out) session.
     """
 
-    def __init__(self, username, password):
+    def __init__(self, username=None, password=None):
         self.username = username
         self.password = password
         self.session = requests.Session()
@@ -447,7 +447,7 @@ class MedicoverSession:
         response_json = self._get_filters_data(region=region, bookingtype=bookingtype, specialization=specialization)
         return response_json["clinics"]
 
-    def load_available_doctors(self, region, bookingtype, specialization, clinic):
+    def load_available_doctors(self, region, bookingtype, specialization, clinic=None):
         """Download available doctor names and ids."""
         response_json = self._get_filters_data(region=region, bookingtype=bookingtype, specialization=specialization, clinic=clinic)
         return response_json["doctors"]
@@ -469,3 +469,20 @@ class MedicoverSession:
         )
         response.raise_for_status()
         return response.json()
+
+    def get_user_details(self):
+        response = self.session.get(
+            BASE_URL + "/#/",
+            headers={
+                "Host": BASE_HOST,
+                "Origin": BASE_URL,
+                "User-Agent": USER_AGENT,
+            },
+        )
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Extracting username and userid
+        username = soup.find('meta', {'name': 'user:fullname'})['content']
+        userid = soup.find('meta', {'name': 'user:name'})['content']
+        response.raise_for_status()
+        return username, userid
