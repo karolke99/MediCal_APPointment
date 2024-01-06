@@ -10,6 +10,11 @@ Flask-Migrate = "4.0.5"
 gunicorn = "21.2.0"
 structlog = "23.2.0"
 psycopg2-binary = "2.9.9"
+requests = "2.20.1"
+beautifulsoup4 = "4.6.3"
+appdirs = "1.4.4"
+fake-useragent = "1.1.0"
+
 
 [dev-packages]
 
