@@ -1,7 +1,7 @@
 import React from 'react';
 import './appointments.scss';
 
-const AppointmentList = ({ appointments }) => {
+const AppointmentList = ({ appointments, setSelectedAppointment }) => {
     return (
         <div className="appointment-list">
             <h2>Appointment List</h2>
@@ -14,7 +14,7 @@ const AppointmentList = ({ appointments }) => {
                             <p>{appointment.location}</p>
                         </div>
                         <div className="appointment-actions">
-                            <button>View</button>
+                            <button onClick={() => setSelectedAppointment(appointment)}>View</button>
                         </div>
                     </li>
                 ))}

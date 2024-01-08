@@ -21,7 +21,7 @@ const ServiceDetails = () => {
         else {
             console.log('waitting for data');
         }
-    }, [services]);
+    }, [servId, services]);
 
     return (
         <Box sx={{ bgcolor: '#fce4ec', color: 'primary.main', p: 2, mb: 2, textAlign: "center" }}>
