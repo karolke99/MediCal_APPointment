@@ -198,8 +198,6 @@ class SpecializationsDoctorsMedicover(db.Model):
     )
 
 
-
-
 class MedicoverUsers(db.Model):
     __tablename__ = "medicover_users"
 
@@ -213,7 +211,8 @@ class MedicoverUsers(db.Model):
 
     medicover_user_id = db.Column(
         db.Integer,
-        nullable=False
+        nullable=False,
+        unique=True
     )
 
     user_id = db.Column(
@@ -227,3 +226,63 @@ class MedicoverUsers(db.Model):
         db.ForeignKey(RegionsMedicover.id),
         nullable=True,
     )
+
+
+class MedicoverUsersSchedules(db.Model):
+    __tablename__ = "medicover_users_schedules"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        unique=True,
+        nullable=False,
+        autoincrement=True
+    )
+
+    specialization_id = db.Column(
+        db.Integer,
+        db.ForeignKey(SpecializationsMedicover.id),
+        nullable=False
+    )
+
+    medicover_user_id = db.Column(
+        db.Integer,
+        db.ForeignKey(MedicoverUsers.medicover_user_id),
+        nullable=False
+    )
+
+    doctor_id = db.Column(
+        db.Integer,
+        db.ForeignKey(DoctorsMedicover.id),
+        nullable=True
+    )
+
+    clinic_id = db.Column(
+        db.Integer,
+        db.ForeignKey(ClinicsMedicover.id),
+        nullable=True
+    )
+
+
+class MedicoverUsersNotifications(db.Model):
+    __tablename__ = "medicover_users_notifications"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        unique=True,
+        nullable=False,
+        autoincrement=True
+    )
+
+    medicover_users_schedules_id = db.Column(
+        db.Integer,
+        db.ForeignKey(MedicoverUsersSchedules.id),
+        nullable=False
+    )
+
+    appointment_hash = db.Column(
+        db.String(1000),
+        nullable=False
+    )
+

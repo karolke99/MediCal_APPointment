@@ -10,6 +10,11 @@ from backend.endpoints.medicover.regions.get import GetRegions
 from backend.endpoints.medicover.regions.update import UpdateRegions
 from backend.endpoints.medicover.specializations.get import GetSpecializations
 from backend.endpoints.medicover.clinics.get import GetClinics
+from backend.endpoints.medicover.appointments.get import GetAppointments
+from backend.endpoints.medicover.schedules.get import GetSchedules
+from backend.endpoints.medicover.schedules.post import PostSchedules
+from backend.endpoints.medicover.schedules.delete import DeleteSchedules
+from backend.endpoints.medicover.notifications.get import GetNotifications
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -34,8 +39,7 @@ def banana_message():
 @app.route("/dump")
 def dump_db():
     dump_sqlalchemy()
-    return "Deal, szefie"
-
+    return "this is the way"
 
 
 @app.route("/medicover/login", methods=['POST'])
@@ -67,6 +71,34 @@ def get_clinics():
     return EndpointHandler.execute_endpoint(GetClinics, headers=request.headers, body=request.get_json())
 
 
+@app.route("/medicover/appointments", methods=['GET'])
+def get_appointments():
+    return EndpointHandler.execute_endpoint(GetAppointments, headers=request.headers, body=request.get_json())
+
+
+@app.route("/medicover/schedules", methods=['GET'])
+def get_schedules():
+    return EndpointHandler.execute_endpoint(GetSchedules, headers=request.headers)
+
+
+@app.route("/medicover/schedules", methods=['POST'])
+def post_schedules():
+    return EndpointHandler.execute_endpoint(PostSchedules, headers=request.headers, body=request.get_json())
+
+
+@app.route("/medicover/schedules", methods=['DELETE'])
+def delete_schedules():
+    return EndpointHandler.execute_endpoint(DeleteSchedules, headers=request.headers, body=request.get_json())
+
+
+@app.route("/medicover/notifications", methods=['GET'])
+def get_notifications():
+    # żeby to działało trzeba ustawić admin credentiale :)
+    # ADMIN_USER = os.getenv("admin_user", "")
+    # ADMIN_PASSWORD = os.getenv("admin_password", "")
+    return EndpointHandler.execute_endpoint(GetNotifications, headers={}, body={})
+
+
 class EndpointHandler:
     def __init__(self):
         pass
@@ -88,12 +120,12 @@ class EndpointHandler:
 
     @staticmethod
     def execute(handler) -> Tuple[dict, int]:
-        try:
-            return handler.execute()
-        except Exception as e:
-            return {"message": f"Something went wrong {str(e)}"}, 400
-        except KeyError as e:
-            return {"message": f"Missing parameter: {str(e)}"}, 400
+        # try:
+        return handler.execute()
+        # except Exception as e:
+        #     return {"message": f"Something went wrong {str(e)}"}, 400
+        # except KeyError as e:
+        #     return {"message": f"Missing parameter: {str(e)}"}, 400
 
 
 if __name__ == "__main__":
