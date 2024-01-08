@@ -1,6 +1,5 @@
 import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link } from 'react-router-dom';
 import useData from '../../Hooks/useData';
 import { HashLink } from 'react-router-hash-link';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';

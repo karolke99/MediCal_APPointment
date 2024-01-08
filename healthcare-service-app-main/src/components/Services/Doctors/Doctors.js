@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, Skeleton, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { HashLink } from 'react-router-hash-link';
 import useDocData from '../../../Hooks/useDocData';

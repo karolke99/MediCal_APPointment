@@ -1,0 +1,47 @@
+// SCSS for Dropdown Component
+
+// Variables
+$primary-color: #EA4C89;
+$background-color: #f9f9f9;
+$text-color: #333;
+$dropdown-width: 160px;
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &-button {
+    padding: 10px;
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  &-content {
+    display: none;
+    position: absolute;
+    background-color: $background-color;
+    min-width: $dropdown-width;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    &-item {
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+      color: $text-color;
+
+      &:hover {
+        background-color: lighten($background-color, 5%);
+      }
+    }
+  }
+
+  &:hover {
+    .dropdown-content {
+      display: block;
+    }
+  }
+}
