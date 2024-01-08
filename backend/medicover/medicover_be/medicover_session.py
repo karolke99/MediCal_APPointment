@@ -380,7 +380,6 @@ class MedicoverSession:
                 )
             option_text = "\t|".join(option_texts)
             option_result = f"{option_id}\t{option_header}\t{option_text}"
-            print(option_result)
             output = output + option_result + "\n"
 
         return output

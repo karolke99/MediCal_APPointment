@@ -1,6 +1,7 @@
 from typing import Tuple
 
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, send_from_directory, request, jsonify
+
 import logging
 
 from backend.database.database import db, migrate, dump_sqlalchemy
@@ -35,11 +36,20 @@ app = create_app()
 def banana_message():
     return "Spadaj na drzewo prostować banany."
 
-
 @app.route("/dump")
 def dump_db():
     dump_sqlalchemy()
     return "this is the way"
+
+
+@app.route('/docs')
+def swagger_ui():
+    return render_template('swagger_ui.html')
+
+
+@app.route('/spec')
+def get_spec():
+    return send_from_directory(app.root_path, 'docs/medical_appointment.yaml')
 
 
 @app.route("/medicover/login", methods=['POST'])
@@ -91,6 +101,7 @@ def delete_schedules():
     return EndpointHandler.execute_endpoint(DeleteSchedules, headers=request.headers, body=request.get_json())
 
 
+# TODO -> devops dude - add execute of this endpoint every minute during deployment process
 @app.route("/medicover/notifications", methods=['GET'])
 def get_notifications():
     # żeby to działało trzeba ustawić admin credentiale :)
@@ -120,12 +131,21 @@ class EndpointHandler:
 
     @staticmethod
     def execute(handler) -> Tuple[dict, int]:
-        # try:
-        return handler.execute()
-        # except Exception as e:
-        #     return {"message": f"Something went wrong {str(e)}"}, 400
-        # except KeyError as e:
-        #     return {"message": f"Missing parameter: {str(e)}"}, 400
+        try:
+            return handler.execute()
+        except Exception as e:
+            return {"message": f"Something went wrong {str(e)}"}, 400
+        except KeyError as e:
+            return {"message": f"Missing parameter: {str(e)}"}, 400
+
+
+# scheduler = APScheduler()
+# scheduler.init_app(app)
+# scheduler.start()
+# scheduler.add_job(id='find-appointments',
+#                   func=requests.get("http://127.0.0.1:8000/medicover/notifications"),
+#                   trigger='interval',
+#                   minutes=1)
 
 
 if __name__ == "__main__":

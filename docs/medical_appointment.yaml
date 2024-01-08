@@ -1,0 +1,457 @@
+openapi: 3.0.0
+info:
+  title: MediCAL Appointment API
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: Ping
+      tags:
+        - devops
+  /dump:
+    get:
+      summary: Dump db to files
+      description: Go through db tables and save them to csv
+      tags:
+        - devops
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                  message:
+                    type: string
+  /medicover/login:
+    post:
+      summary: Login to Medicover
+      description: Authenticates a user and returns user details and session cookies.
+      tags:
+        - login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cookies:
+                        type: string
+                      internal_medicover_user_id:
+                        type: integer
+                      userid:
+                        type: string
+                      username:
+                        type: string
+                  message:
+                    type: string
+  /medicover/regions:
+    get:
+      summary: Retrieve Medicover regions
+      description: Fetches a list of Medicover regions.
+      tags:
+        - regions
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { }
+      responses:
+        '200':
+          description: List of regions fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                  message:
+                    type: string
+                    example: success
+    put:
+      summary: Update Medicover region
+      description: Update Medicover region for an user
+      tags:
+        - regions
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                region_id:
+                  type: integer
+      responses:
+        '200':
+          description: List of regions fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    example: { }
+                  message:
+                    type: string
+                    example: success
+  /medicover/specializations:
+    get:
+      summary: Retrieve Medicover specializations
+      description: Fetches a list of Medicover specializations.
+      tags:
+        - specializations
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example: { }
+      responses:
+        '200':
+          description: List of specializations fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                  message:
+                    type: string
+                    example: success
+  /medicover/clinics:
+    get:
+      summary: Retrieve Medicover clinics
+      description: Fetches a list of Medicover clinics.
+      tags:
+        - clinics
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                specialization_id:
+                  type: integer
+      responses:
+        '200':
+          description: List of clinics fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        region_id:
+                          type: integer
+                  message:
+                    type: string
+                    example: success
+  /medicover/doctors:
+    get:
+      summary: Retrieve Medicover doctors
+      description: Fetches a list of Medicover doctors.
+      tags:
+        - doctors
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                specialization_id:
+                  type: integer
+      responses:
+        '200':
+          description: List of doctors fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        region_id:
+                          type: integer
+                  message:
+                    type: string
+                    example: success
+  /medicover/appointments:
+    get:
+      summary: Retrieve Medicover appointments
+      description: Fetches a list of Medicover appointments.
+      tags:
+        - appointments
+      headers:
+        Cookie:
+          schema:
+            type: string
+          required: true
+          description: Session cookie received after successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                specialization_id:
+                  type: integer
+                clinic_id:
+                  type: integer
+                doctor_id:
+                  type: integer
+              required:
+                - specialization_id
+      responses:
+        '200':
+          description: List of appointments fetched successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        clinic_name:
+                          type: string
+                        date:
+                          type: string
+                        doctor_name:
+                          type: string
+                        is_phone_consultation:
+                          type: string
+                        specialization_name:
+                          type: string
+                  message:
+                    type: string
+                    example: success
+  /medicover/schedules:
+    post:
+      summary: Add a user schedule
+      description: Add a user schedule
+      tags:
+        - schedules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                specialization_id:
+                  type: integer
+                doctor_id:
+                  type: integer
+                clinic_id:
+                  type: integer
+              required:
+                - specialization_id
+      responses:
+        '200':
+          description: Successful added schedule
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                  message:
+                    type: string
+    get:
+      summary: Get user schedules
+      description: Get user schedules
+      tags:
+        - schedules
+      responses:
+        '200':
+          description: Successful fetched schedules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        clinic_id:
+                          type: integer
+                        doctor_id:
+                          type: integer
+                        medicover_user_id:
+                          type: integer
+                        specialization_id:
+                          type: integer
+                  message:
+                    type: string
+                    example: success
+    delete:
+      summary: Delete user schedule
+      description: Delete user schedule
+      tags:
+        - schedules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                schedule_id:
+                  type: integer
+      responses:
+        '200':
+          description: Successful deleted schedule
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                  message:
+                    type: string
+  /docs:
+    get:
+      summary: Get Swagger HTML
+      description: Returns the Swagger UI page as HTML.
+      tags:
+        - devops
+      responses:
+        '200':
+          description: A HTML page of Swagger UI.
+          content:
+            text/html:
+              schema:
+                type: string
+                format: binary
+  /spec:
+    get:
+      summary: Download API Specification
+      description: Returns the API specification as a YAML file for download.
+      tags:
+        - devops
+      responses:
+        '200':
+          description: A YAML file containing the API specification.
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+                format: binary
+              example: "openapi: 3.0.0\ninfo:\n  title: Sample API\n  version: 1.0.0\n..."

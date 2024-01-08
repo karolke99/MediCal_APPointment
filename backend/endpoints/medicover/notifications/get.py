@@ -74,7 +74,7 @@ class GetNotifications(SessionHandler):
         for appointment in appointments:
             hash_ = self.calculate_hash(appointment)
 
-            if hash_ not in old_hashes:
+            if str(hash_) not in old_hashes:
                 new_appointments.append(appointment)
 
                 db.session.add(MedicoverUsersNotifications(
