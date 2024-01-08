@@ -1,13 +1,14 @@
 import { Box, Container } from '@mui/material';
 import React, {useMemo, useState} from 'react';
-import useAuth from '../../../Hooks/useAuth';
 import AppointmentFilter from "./AppoitmentFilter";
 import AppointmentList from "./AppoitmentList";
 import useAppointmentFetcher from "../../../Hooks/useAppoitmnetFetcher";
+import AppointmentPopover from "./AppointmentPopover";
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import {isEqual} from "lodash";
 import "./appointments.scss";
+import { bookAppointment } from "./util";
 
 const filterAppointments = (appointments, filters) => {
     const {
@@ -52,10 +53,17 @@ const Appointment = () => {
     // const { user } = useAuth();
     const { appointments } = useAppointmentFetcher();
     const [filters, setFilters] = useState({})
+    const [selectedAppointment, setSelectedAppointment] = useState({});
 
     const filteredAppointments = useMemo(() => {
         return filterAppointments(appointments, filters);
     }, [appointments, filters]);
+
+    const onBookAppointment = (formData) => {
+        console.log('onBookAppointment');
+        bookAppointment(selectedAppointment, formData);
+        setSelectedAppointment({});
+    }
 
     return (
         <Box id='appointment'
@@ -65,6 +73,12 @@ const Appointment = () => {
                 flexDirection: 'column',
                 minHeight: '100vh',
             }}>
+            {!isEmpty(selectedAppointment) &&
+                <AppointmentPopover
+                    appointment={selectedAppointment}
+                    setSelectedAppointment={setSelectedAppointment}
+                    onBook={onBookAppointment}
+                />}
             <Container maxWidth="xl">
                 <h6>Select your time and data for Appointment</h6>
                 <AppointmentFilter
@@ -73,6 +87,7 @@ const Appointment = () => {
                 />
                 <AppointmentList
                     appointments={filteredAppointments}
+                    setSelectedAppointment={setSelectedAppointment}
                 />
             </Container>
         </Box>
