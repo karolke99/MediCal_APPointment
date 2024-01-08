@@ -13,7 +13,6 @@ const ServiceDetails = () => {
     const mainData = useData();
     let services = mainData[0];
 
-    // handle undifined problem in mapping data
     useEffect(() => {
         if (services.length > 1) {
             const servDetails = services?.find(service => service.id === parseInt(servId));

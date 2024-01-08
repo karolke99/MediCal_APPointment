@@ -1,0 +1,115 @@
+$primary-color: #EA4C89;
+$background-color: #f9f9f9;
+$text-color: #333;
+$border-color: #ddd;
+$padding: 15px;
+
+.appointments {
+  font-family: monospace;
+
+  h6 {
+    font: inherit;
+    letter-spacing: inherit;
+    color: currentColor;
+    padding: 1rem 0;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .appointments__filter-Container {
+    display: grid;
+    grid-template-rows: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+    grid-template-columns: 20% 20% 20%;
+
+    .appointments__filter-Container-group {
+      display: flex;
+      flex-direction: column;
+      padding-right: 1rem;
+
+      .appointments__filter-Container-item {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 1rem;
+      }
+
+      input {
+        height: 2rem;
+      }
+    }
+
+    .appointments__filter-Container-button-group {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 1rem;
+
+      .appointments__filter-Container-button {
+        background-color: #EA4C89;
+        height: 2.3rem;
+        color: white;
+        font-size: 0.9rem;
+        margin-top: 0.9rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .appointment-list {
+    margin: 0 auto;
+    padding: $padding;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: $padding / 2;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .appointment-item {
+        border-bottom: 1px solid $border-color;
+        padding: $padding / 2 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .appointment-details {
+          flex: 1;
+
+          h3 {
+            margin-bottom: $padding / 4;
+            color: $primary-color;
+          }
+
+          p {
+            margin: 0;
+            color: $text-color;
+          }
+        }
+
+        .appointment-actions {
+          button {
+            background-color: $primary-color;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background-color: darken($primary-color, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

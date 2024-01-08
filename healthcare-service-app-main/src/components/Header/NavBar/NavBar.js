@@ -1,6 +1,5 @@
 import { AppBar, Avatar, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import HealingTwoToneIcon from '@mui/icons-material/HealingTwoTone';
 import './NavBar.css'
@@ -59,7 +58,7 @@ const Navbar = () => {
                         > <HealingTwoToneIcon
                                 fontSize='large'
                             />
-                            Health Haven Hospital
+                            APPointment
                         </Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
